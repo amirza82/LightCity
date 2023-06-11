@@ -1,5 +1,6 @@
 package org.example.models;
 
+import org.example.Information;
 import org.example.defualtSystem.Bank;
 
 import java.util.Date;
@@ -18,7 +19,7 @@ public class BankAccount {
     }
 
     public BankAccount(String owner, String password) {
-        for (Industry i:Information.industrys) {
+        for (Industry i: Information.industrys) {
             if (i.getTitle()=="Bank")
                 bank==i;
         }

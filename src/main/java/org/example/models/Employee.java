@@ -1,18 +1,32 @@
 package org.example.models;
 
+import org.example.Information;
 import org.example.defualtSystem.Bank;
 
 public class Employee {
+    private String title;
     private float baseSalary ;
     private int level;
     private Character character;
     private Industry industry;
 
-    public Employee(Character character,Industry industry, float baseSalary) {
-        this.character = character;
+    public Employee(String characterUsername,String characterpass,int industryId, float baseSalary,
+                    String title, int level) {
+        this.title = title;
+
+        for (Character c: Information.characters) {
+            if ((c.getUserInfo().getUsername().equals(characterUsername))
+            && (c.getUserInfo().getPassword().equals(characterpass))){
+                this.character = c;
+                c.setJob(new Job(title,(baseSalary*level),industryId));
+            }
+        }
+        for (Industry i:Information.industrys) {
+            if (i.id == industryId)
+                this.industry = i;
+        }
         this.baseSalary = baseSalary;
-        this.industry = industry;
-        this.level = 1;
+        this.level = level;
     }
 
     public Character getCharacter() {

@@ -1,12 +1,15 @@
 package org.example.models;
 
+import org.example.Information;
+
 import java.util.ArrayList;
 
 public class Industry extends Property{
+    protected int id;
     protected String title;
     protected float income;
-
     protected ArrayList<Employee> employees = new ArrayList<>();
+
 
     /**
      * @param title : A Title for generate Industry @example : Bank extends Industry then title = "Bank"
@@ -18,6 +21,10 @@ public class Industry extends Property{
         super(property.getScales(),property.getCoordinate(),character);
         this.title = title;
         this.income = income;
+        for (Employee e: Information.employees) {
+            if (e.getIndustry().id == id)
+                employees.add(e);
+        }
         startPaySalary();
     }
 
