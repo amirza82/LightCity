@@ -1,28 +1,34 @@
 package org.example.models;
 
+import org.example.defualtSystem.Bank;
+
 public class Employee {
-    private String username;
     private float baseSalary ;
     private int level;
-
-    private BankAccount bankAccount;
-
+    private Character character;
     private Industry industry;
 
-    public Employee(String username,Industry industry, float baseSalary,BankAccount bankAccount) {
-        this.username = username;
+    public Employee(Character character,Industry industry, float baseSalary) {
+        this.character = character;
         this.baseSalary = baseSalary;
         this.industry = industry;
         this.level = 1;
-        this.bankAccount = bankAccount;
     }
 
-    public String getUsername() {
-        return username;
+    public Character getCharacter() {
+        return character;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setCharacter(Character character) {
+        this.character = character;
+    }
+
+    public Industry getIndustry() {
+        return industry;
+    }
+
+    public void setIndustry(Industry industry) {
+        this.industry = industry;
     }
 
     public float getBaseSalary() {
@@ -42,6 +48,6 @@ public class Employee {
     }
 
     public void paySalary(){
-        bankAccount.deposit(industry.getOwner(),level*baseSalary);
+        Bank.transferMoney(industry.getOwner(),character,level*baseSalary);
     }
 }

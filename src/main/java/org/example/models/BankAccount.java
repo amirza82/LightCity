@@ -9,14 +9,32 @@ public class BankAccount {
     private String password;
     private float money;
     private Date lastChange;
+    private Bank bank =null;
 
     private String logs = "";
 
-    public BankAccount(String owner, String password, float money, Date lastChange) {
-        this.owner = owner;
-        this.password = password;
+    public void setMoney(float money) {
         this.money = money;
-        this.lastChange = lastChange;
+    }
+
+    public BankAccount(String owner, String password) {
+        for (Industry i:Information.industrys) {
+            if (i.getTitle()=="Bank")
+                bank==i;
+        }
+        boolean found = false;
+        for (BankAccount b:bank.getAccounts()) {
+            if (b.getOwner().equals(owner) && b.getPassword().equals(password)){
+                this.owner = owner;
+                this.password = password;
+                money = b.getMoney();
+                lastChange = b.getLastChange();
+                found=true;
+            }
+        }
+        if (!found){
+            System.out.println("There is no account with this specifications");
+        }
     }
 
     public String getOwner() {
@@ -48,25 +66,22 @@ public class BankAccount {
         this.lastChange = lastChange;
     }
 
-    public boolean withdraw(Character character,float amount){
-        if(character.getUserInfo().getUsername().equals(owner)){
+    public boolean withdraw(float amount){
             if(amount <= money){
-                Bank.turnover.transfer(amount,-1);
+//                Bank.turnover.transfer(amount,-1);
                 money-= amount;
                 return true;
-            }else
-                return false;
-        }
+            }
         return false;
     }
-    public boolean deposit(Character character,float amount){
+    public boolean deposit(float amount){
         if(amount >0){
-            String log = String.format("User : %s deposit %f \n",character.getUserInfo().getUsername(),amount);
-            logs+=log;
-            Bank.turnover.transfer(amount,1);
-            money += amount;
-            return true;
-        }
+//            String log = String.format("User : %s deposit %f \n",character.getUserInfo().getUsername(),amount);
+//            logs+=log;
+//            Bank.turnover.transfer(amount,1);
+                money += amount;
+                return true;
+            }
         return false;
     }
 }

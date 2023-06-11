@@ -1,9 +1,18 @@
 package org.example.models;
 
 public class Property {
-    private float[] scales;
-    private float[] coordinate;
-    private Character owner ;
+    protected float[] scales;
+    protected float[] coordinate;
+    protected Character owner ;
+    protected int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Property(float[] scales, float[] coordinate, Character owner) {
         this.scales = scales;

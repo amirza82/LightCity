@@ -1,11 +1,10 @@
 package org.example.models;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Industry extends Property{
-    private String title;
-    private float income;
+    protected String title;
+    protected float income;
 
     protected ArrayList<Employee> employees = new ArrayList<>();
 

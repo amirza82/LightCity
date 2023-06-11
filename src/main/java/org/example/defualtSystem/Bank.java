@@ -1,8 +1,8 @@
 package org.example.defualtSystem;
 
 import org.example.interfaces.BankInterface;
-import org.example.models.*;
 import org.example.models.Character;
+import org.example.models.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,9 +11,11 @@ public class Bank extends Industry implements BankInterface {
 
     private static final int MAX_EMPLOYEE_COUNT = 5;
     private static final float BASE_EMP_SALARY = 0.5f;
-    private ArrayList<BankAccount> accounts = new ArrayList<BankAccount>();
+    private static ArrayList<BankAccount> accounts = new ArrayList<BankAccount>();
 
-    private Manager manager = null;
+    public ArrayList<BankAccount> getAccounts() {
+        return accounts;
+    }
 
     public static  BankTurnover turnover;
 
@@ -23,22 +25,32 @@ public class Bank extends Industry implements BankInterface {
     }
 
     public BankAccount newAccount(String username,String password){
-        BankAccount bankAccount = new BankAccount(username,password,0,new Date());
+        BankAccount bankAccount = new BankAccount(username,password);
+        bankAccount.setMoney(0);
+        bankAccount.setLastChange(new Date());
         accounts.add(bankAccount);
         return bankAccount;
     }
     public boolean registerAsEmp(Character character){
         if(employees.size() >= MAX_EMPLOYEE_COUNT)return false;
-        Employee employee = new Employee(character.getUserInfo().getUsername(),this,BASE_EMP_SALARY,character.getAccount());
+        Employee employee = new Employee(character,this,BASE_EMP_SALARY);
         employees.add(employee);
         return true;
     }
 
-
     public String bankDetail(Character character){
-        if(character.getUserInfo().getUsername().equals(manager.getUsername())){
-            return "";
+        if(character==owner){
+            return "Bank{" +
+                    "manager=" + owner +
+                    ", employees=" + employees +
+                    '}';
         }
         return "Only Manager can see Bank detail";
+    }
+    public static boolean transferMoney(Character buyer, Character seller, float amount){
+        if (buyer.getAccount().withdraw(amount))
+            if (seller.getAccount().deposit(amount))
+                return true;
+        return false;
     }
 }
