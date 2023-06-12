@@ -5,7 +5,6 @@ import org.example.Information;
 import java.util.ArrayList;
 
 public class Industry extends Property{
-    protected int id;
     protected String title;
     protected float income;
     protected ArrayList<Employee> employees = new ArrayList<>();
@@ -17,15 +16,25 @@ public class Industry extends Property{
      * @param  character : Industry owner
      * @param  income : Each Business has a class like Bank and extends Industry , in super method  Enter the desired monthly income amount
      * */
-    public Industry(String title,Property property,Character character,float income) {
-        super(property.getScales(),property.getCoordinate(),character);
+    public Industry(String title,float income, int propertyId) {
+        super(propertyId);
         this.title = title;
         this.income = income;
         for (Employee e: Information.employees) {
-            if (e.getIndustry().id == id)
+            if (e.getIndustry().id == this.id)
                 employees.add(e);
         }
         startPaySalary();
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {

@@ -4,21 +4,31 @@ import org.example.models.Food;
 import org.example.models.Liquid;
 
 public class Life {
+    private String username;
     private float food;
     private float water;
     private float sleep;
 
-    public Life(){
-        food = 100.0f;
-        water=100.0f;
-        sleep=100.0f;
-    }
+//    public Life(){
+//        food = 100.0f;
+//        water=100.0f;
+//        sleep=100.0f;
+//    }
 
-    public Life(float food, float water, float sleep) {
+    public Life(float food, float water, float sleep, String username) {
         this.food = food;
         this.water = water;
         this.sleep = sleep;
+        this.username = username;
         startConsuming();
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public float getFood() {

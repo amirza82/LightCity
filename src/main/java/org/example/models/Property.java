@@ -1,5 +1,7 @@
 package org.example.models;
 
+import org.example.Information;
+
 public class Property {
     protected float[] scales;
     protected float[] coordinate;
@@ -14,10 +16,26 @@ public class Property {
         this.id = id;
     }
 
-    public Property(float[] scales, float[] coordinate, Character owner) {
+    public Property(float[] scales, float[] coordinate, String ownerUserName, int id) {
+        this.id = id;
         this.scales = scales;
         this.coordinate = coordinate;
-        this.owner = owner;
+        for (Character c: Information.characters) {
+            if (c.getUserInfo().getUsername().equals(ownerUserName)){
+                this.owner = c;
+                break;
+            }
+        }
+    }
+    public Property(int id) {
+        for (Property p:Information.properties) {
+            if (p.getId()==id){
+                this.id = id;
+                this.scales = p.getScales();
+                this.coordinate = p.getCoordinate();
+                this.owner = p.getOwner();
+            }
+        }
     }
 
     public float[] getScales() {

@@ -11,11 +11,6 @@ public class Bank extends Industry implements BankInterface {
 
     private static final int MAX_EMPLOYEE_COUNT = 5;
     private static final float BASE_EMP_SALARY = 0.5f;
-    private static ArrayList<BankAccount> accounts = new ArrayList<BankAccount>();
-
-    public ArrayList<BankAccount> getAccounts() {
-        return accounts;
-    }
 
     public static  BankTurnover turnover;
 
@@ -24,13 +19,13 @@ public class Bank extends Industry implements BankInterface {
         turnover = new BankTurnover();
     }
 
-    public BankAccount newAccount(String username,String password){
-        BankAccount bankAccount = new BankAccount(username,password);
-        bankAccount.setMoney(0);
-        bankAccount.setLastChange(new Date());
-        accounts.add(bankAccount);
-        return bankAccount;
-    }
+//    public BankAccount newAccount(String username){
+//        BankAccount bankAccount = new BankAccount(username,0,new Date());
+////        bankAccount.setMoney(0);
+////        bankAccount.setLastChange(new Date());
+////        accounts.add(bankAccount);
+//        return bankAccount;
+//    }
     public boolean registerAsEmp(Character character){
         if(employees.size() >= MAX_EMPLOYEE_COUNT)return false;
         Employee employee = new Employee(character,this,BASE_EMP_SALARY);

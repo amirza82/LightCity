@@ -4,6 +4,23 @@ public class Job {
     private String title;
     private float income;
     public int industryId;
+    private int id;
+
+    public int getIndustryId() {
+        return industryId;
+    }
+
+    public void setIndustryId(int industryId) {
+        this.industryId = industryId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     /**
      * @param title : Industry title

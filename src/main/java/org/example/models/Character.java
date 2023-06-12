@@ -1,27 +1,61 @@
 package org.example.models;
 
+import org.example.Information;
 import org.example.defualtSystem.Life;
 import org.example.interfaces.CharacterInterface;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Character implements CharacterInterface {
     private User userInfo;
     private BankAccount account;
     private Life life;
-
     private Job job;
-    private ArrayList<Property> properties;
-
+    private ArrayList<Property> properties = new ArrayList<>();
+    boolean accountFound;
     private Property inPosition;
 
-    public Character(User userInfo, BankAccount account, Life life, Job job, ArrayList<Property> properties, Property inPosition) {
-        this.userInfo = userInfo;
-        this.account = account;
-        this.life = life;
-        this.job = job;
-        this.properties = properties;
-        this.inPosition = inPosition;
+    public Character(String username, int jobId,
+                     ArrayList<Integer> propertiesId, int inPositionId) {
+        for (User u: Information.users) {
+            if (u.getUsername().equals(username)){
+                userInfo = u;
+                break;
+            }
+        }
+        accountFound = false;
+        for (BankAccount b:Information.bankAccounts) {
+            if (b.getOwner().equals(username)){
+                account = b;
+                accountFound = true;
+                break;
+            }
+        }
+        if (!accountFound)
+            account = new BankAccount(username,10,new Date());
+
+        for (Property p:Information.properties) {
+            if (p.getId() == inPositionId)
+                inPosition = p;
+
+            if (propertiesId.contains(p.getId()))
+                properties.add(p);
+        }
+
+        for (Job j:Information.jobs) {
+            if (j.getId() == jobId){
+                this.job = j;
+                break;
+            }
+        }
+
+        for (Life l:Information.lives) {
+            if (l.getUsername().equals(username)){
+                this.life = l;
+                break;
+            }
+        }
     }
 
     public User getUserInfo() {
@@ -48,17 +82,25 @@ public class Character implements CharacterInterface {
         this.life = life;
     }
 
+    public Property getInPosition() {
+        return inPosition;
+    }
+
+    public void setInPosition(Property inPosition) {
+        this.inPosition = inPosition;
+    }
+
+    public void gotToLocation(Property destination){
+        if(destination==null)return;
+        inPosition = destination;
+    }
+
     public Job getJob() {
         return job;
     }
 
     public void setJob(Job job) {
         this.job = job;
-    }
-
-    public void gotToLocation(Property destination){
-        if(destination==null)return;
-        inPosition = destination;
     }
 
     public ArrayList<Property> getProperties() {

@@ -7,10 +7,10 @@ import java.util.Date;
 
 public class BankAccount {
     private String owner;
-    private String password;
+//    private String password;
     private float money;
     private Date lastChange;
-    private Bank bank =null;
+    private static Bank bank = Information.getBank();
 
     private String logs = "";
 
@@ -18,24 +18,10 @@ public class BankAccount {
         this.money = money;
     }
 
-    public BankAccount(String owner, String password) {
-        for (Industry i: Information.industrys) {
-            if (i.getTitle()=="Bank")
-                bank==i;
-        }
-        boolean found = false;
-        for (BankAccount b:bank.getAccounts()) {
-            if (b.getOwner().equals(owner) && b.getPassword().equals(password)){
-                this.owner = owner;
-                this.password = password;
-                money = b.getMoney();
-                lastChange = b.getLastChange();
-                found=true;
-            }
-        }
-        if (!found){
-            System.out.println("There is no account with this specifications");
-        }
+    public BankAccount(String ownerUserName, float money, Date lastChange) {
+        this.owner = ownerUserName;
+        this.money = money;
+        this.lastChange = lastChange;
     }
 
     public String getOwner() {
@@ -46,13 +32,13 @@ public class BankAccount {
         this.owner = owner;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
 
     public float getMoney() {
         return money;
