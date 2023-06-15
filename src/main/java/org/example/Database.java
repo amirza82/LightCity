@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.defualtSystem.Life;
 import org.example.models.*;
 import org.example.models.Character;
 
@@ -31,7 +32,7 @@ public class Database {
                 ResultSet jobRS = stmt.executeQuery("SELECT * FROM jobs");
                 while (jobRS.next()) {
                     String title = jobRS.getString("title");
-                    float income = jobRS.getFloat("income")
+                    float income = jobRS.getFloat("income");
                     int id = jobRS.getInt("jobid");
                     int industryid = jobRS.getInt("industryid");
 
@@ -73,7 +74,7 @@ public class Database {
                         coordinates.add(Float.parseFloat(s));
                     }
 
-                    String[] scaleArray = coordinate.split(" ");
+                    String[] scaleArray = scales.split(" ");
                     ArrayList<Float> floatScale = new ArrayList<>();
 
                     for (String s : scaleArray) {
@@ -96,6 +97,51 @@ public class Database {
                     Information.industrys.add(new Industry(title,income,id));
                 }
                 industrysRS.close();
+
+                ResultSet lifeRS = stmt.executeQuery("SELECT * FROM lives");
+                while (lifeRS.next()) {
+                    String username = lifeRS.getString("username");
+                    float sleep = lifeRS.getFloat("sleep");
+                    float water = lifeRS.getFloat("water");
+                    float food = lifeRS.getFloat("food");
+
+                    Information.lives.add(new Life(food,water,sleep,username));
+                }
+                lifeRS.close();
+
+                ResultSet foodsRS = stmt.executeQuery("SELECT * FROM foods");
+                while (foodsRS.next()) {
+                    int id = foodsRS.getInt("id");
+                    String title = foodsRS.getString("title");
+                    float water = foodsRS.getFloat("water");
+                    float food = foodsRS.getFloat("food");
+                    int isAvailable = foodsRS.getInt("available");
+                    boolean available;
+
+                    if (isAvailable==0)
+                        available = false;
+                    else
+                        available = true;
+
+                    Information.foods.add(new Food(title,water,food,id,available));
+                }
+                foodsRS.close();
+
+                ResultSet liquidsRS = stmt.executeQuery("SELECT * FROM liquids");
+                while (liquidsRS.next()) {
+                    int id = liquidsRS.getInt("id");
+                    float liquid = liquidsRS.getFloat("liquid");
+                    int isAvailable = liquidsRS.getInt("available");
+                    boolean available;
+
+                    if (isAvailable==0)
+                        available = false;
+                    else
+                        available = true;
+
+                    Information.liquids.add(new Liquid(liquid,id,available));
+                }
+                liquidsRS.close();
 
                 ResultSet bankaccountsRS = stmt.executeQuery("SELECT * FROM bankaccounts");
                 while (bankaccountsRS.next()) {
@@ -204,6 +250,63 @@ public class Database {
                     industrysPS.executeUpdate();
                 }
 
+                // Truncate the lives table to remove any existing data
+                stmt.executeUpdate("TRUNCATE TABLE lives");
+
+                // Insert all lives from the array list into the lives table
+                PreparedStatement livesPS = conn.prepareStatement("INSERT INTO lives" +
+                        "(username,sleep, water, food) VALUES (?, ?, ?, ?)");
+                for (Life l : Information.lives) {
+                    livesPS.setString(1, l.getUsername());
+                    livesPS.setFloat(2, l.getSleep());
+                    livesPS.setFloat(3, l.getWater());
+                    livesPS.setFloat(4, l.getFood());
+
+                    livesPS.executeUpdate();
+                }
+
+                // Truncate the liquids table to remove any existing data
+                stmt.executeUpdate("TRUNCATE TABLE liquids");
+
+                // Insert all liquids from the array list into the liquids table
+                PreparedStatement liquidsPS = conn.prepareStatement("INSERT INTO liquids" +
+                        "(id,liquid, available) VALUES (?, ?, ?)");
+                for (Liquid l : Information.liquids) {
+                    liquidsPS.setInt(1, l.getId());
+                    liquidsPS.setFloat(2, l.getLiquid());
+                    int intAvailable;
+
+                    if (l.isAvailable())
+                        intAvailable = 1;
+                    else
+                        intAvailable = 0;
+                    liquidsPS.setInt(3, intAvailable);
+
+                    liquidsPS.executeUpdate();
+                }
+
+                // Truncate the foods table to remove any existing data
+                stmt.executeUpdate("TRUNCATE TABLE foods");
+
+                // Insert all liquids from the array list into the liquids table
+                PreparedStatement foodsPS = conn.prepareStatement("INSERT INTO foods" +
+                        "(id,title,water,food, available) VALUES (?, ?, ?, ?, ?)");
+                for (Food f: Information.foods) {
+                    foodsPS.setInt(1, f.getId());
+                    foodsPS.setString(2, f.getTitle());
+                    foodsPS.setFloat(3, f.getWater());
+                    foodsPS.setFloat(4, f.getFood());
+                    int intAvailable;
+
+                    if (f.isAvailable())
+                        intAvailable = 1;
+                    else
+                        intAvailable = 0;
+                    foodsPS.setInt(5, intAvailable);
+
+                    foodsPS.executeUpdate();
+                }
+
                 // Truncate the bankaccounts table to remove any existing data
                 stmt.executeUpdate("TRUNCATE TABLE bankaccounts");
 
@@ -224,5 +327,4 @@ public class Database {
             }
 
         }
-    }
 }

@@ -16,10 +16,19 @@ public class Information {
     public static ArrayList<User> users = new ArrayList<>();
     public static ArrayList<Job> jobs = new ArrayList<>();
     public static ArrayList<Life> lives = new ArrayList<>();
+    public static ArrayList<Food> foods = new ArrayList<>();
+    public static ArrayList<Liquid> liquids = new ArrayList<>();
     public static Bank bank = new Bank();
 
     public static Bank getBank(){
         return bank;
+    }
+    public static Character getRoot(){
+        for (Character c:characters) {
+            if (c.getUserInfo().getUsername().equals("root"))
+                return c;
+        }
+        return null;
     }
 
     public static int getBiggestId(Object o){
@@ -74,39 +83,51 @@ public class Information {
             ((Job) o).setId(getBiggestId(o) + 1);
             jobs.add((Job) o);
         }
+        if (o instanceof Food) {
+            ((Food) o).setId(getBiggestId(o) + 1);
+            foods.add((Food) o);
+        }
+        if (o instanceof Liquid) {
+            ((Liquid) o).setId(getBiggestId(o) + 1);
+            liquids.add((Liquid) o);
+        }
         if (o instanceof Life) {
             lives.add((Life) o);
         }
     }
 
-    public static void plus(Object o) {
+    public static void delete(Object o) {
 //        Takes an object and checks what it is. It belongs to any list, adds to that list
         if (o instanceof Industry) {
-            ((Industry) o).setId((getBiggestId(o) + 1));
-            industrys.add((Industry) o);
+            industrys.remove((Industry) o);
         }
         if (o instanceof BankAccount) {
-            bankAccounts.add((BankAccount) o);
+            bankAccounts.remove((BankAccount) o);
         }
         if (o instanceof Character) {
-            characters.add((Character) o);
+            characters.remove((Character) o);
         }
         if (o instanceof Employee) {
-            employees.add((Employee) o);
+            employees.remove((Employee) o);
         }
         if (o instanceof Property) {
             ((Property) o).setId(getBiggestId(o) + 1);
-            properties.add((Property) o);
+            properties.remove((Property) o);
         }
         if (o instanceof User) {
-            users.add((User) o);
+            users.remove((User) o);
         }
         if (o instanceof Job) {
-            ((Job) o).setId(getBiggestId(o) + 1);
-            jobs.add((Job) o);
+            jobs.remove((Job) o);
         }
         if (o instanceof Life) {
-            lives.add((Life) o);
+            lives.remove((Life) o);
+        }
+        if (o instanceof Food) {
+            foods.remove((Food) o);
+        }
+        if (o instanceof Liquid) {
+            liquids.remove((Liquid) o);
         }
     }
 }

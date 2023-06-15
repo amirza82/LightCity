@@ -58,6 +58,23 @@ public class Character implements CharacterInterface {
         }
     }
 
+    public Character(String username) {
+        for (User u: Information.users) {
+            if (u.getUsername().equals(username)){
+                userInfo = u;
+                break;
+            }
+        }
+        account = new BankAccount(username, 10,new Date());
+
+        inPosition = null;
+
+        job = null;
+
+        life = new Life(10,10,10,username);
+    }
+
+
     public User getUserInfo() {
         return userInfo;
     }
@@ -114,5 +131,18 @@ public class Character implements CharacterInterface {
     @Override
     public void positionProcessing() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "Character{" +
+                "userInfo=" + userInfo +
+                ", account=" + account +
+                ", life=" + life +
+                ", job=" + job +
+                ", properties=" + properties +
+                ", accountFound=" + accountFound +
+                ", inPosition=" + inPosition +
+                '}';
     }
 }

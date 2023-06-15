@@ -2,6 +2,8 @@ package org.example.models;
 
 import org.example.Information;
 
+import java.util.Arrays;
+
 public class Property {
     protected float[] scales;
     protected float[] coordinate;
@@ -60,5 +62,15 @@ public class Property {
 
     public void setCoordinate(float[] coordinate) {
         this.coordinate = coordinate;
+    }
+
+    @Override
+    public String toString() {
+        return "Property{" +
+                "scales=" + Arrays.toString(scales) +
+                ", coordinate=" + Arrays.toString(coordinate) +
+                ", owner=" + owner +
+                ", id=" + id +
+                '}';
     }
 }

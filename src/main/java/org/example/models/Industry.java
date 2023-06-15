@@ -3,6 +3,7 @@ package org.example.models;
 import org.example.Information;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Industry extends Property{
     protected String title;
@@ -76,5 +77,18 @@ public class Industry extends Property{
            }
         });
         thread.start();
+    }
+
+    @Override
+    public String toString() {
+        return "Industry{" +
+                "title='" + title + '\'' +
+                ", income=" + income +
+                ", employees=" + employees +
+                ", scales=" + Arrays.toString(scales) +
+                ", coordinate=" + Arrays.toString(coordinate) +
+                ", owner=" + owner +
+                ", id=" + id +
+                '}';
     }
 }

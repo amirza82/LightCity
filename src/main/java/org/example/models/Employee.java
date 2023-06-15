@@ -10,13 +10,12 @@ public class Employee {
     private Character character;
     private Industry industry;
 
-    public Employee(String characterUsername,String characterpass,int industryId, float baseSalary,
+    public Employee(String characterUsername,int industryId, float baseSalary,
                     String title, int level) {
         this.title = title;
 
         for (Character c: Information.characters) {
-            if ((c.getUserInfo().getUsername().equals(characterUsername))
-            && (c.getUserInfo().getPassword().equals(characterpass))){
+            if (c.getUserInfo().getUsername().equals(characterUsername)){
                 this.character = c;
                 c.setJob(new Job(title,(baseSalary*level),industryId));
             }

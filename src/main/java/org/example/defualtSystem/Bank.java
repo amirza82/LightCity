@@ -2,16 +2,13 @@ package org.example.defualtSystem;
 
 import org.example.interfaces.BankInterface;
 import org.example.models.Character;
-import org.example.models.*;
-
-import java.util.ArrayList;
-import java.util.Date;
+import org.example.models.Employee;
+import org.example.models.Industry;
 
 public class Bank extends Industry implements BankInterface {
 
     private static final int MAX_EMPLOYEE_COUNT = 5;
     private static final float BASE_EMP_SALARY = 0.5f;
-
     public static  BankTurnover turnover;
 
     public Bank() {
@@ -26,9 +23,9 @@ public class Bank extends Industry implements BankInterface {
 ////        accounts.add(bankAccount);
 //        return bankAccount;
 //    }
-    public boolean registerAsEmp(Character character){
+    public boolean registerAsEmp(Character character, String title, int level){
         if(employees.size() >= MAX_EMPLOYEE_COUNT)return false;
-        Employee employee = new Employee(character,this,BASE_EMP_SALARY);
+        Employee employee = new Employee(character.getUserInfo().getUsername(),0,BASE_EMP_SALARY,title,level);
         employees.add(employee);
         return true;
     }

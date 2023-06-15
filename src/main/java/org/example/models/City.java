@@ -1,12 +1,11 @@
 package org.example.models;
 
+import org.example.Information;
 import org.example.defualtSystem.Bank;
-import org.example.defualtSystem.Life;
 import org.example.defualtSystem.Municipality;
 import org.example.defualtSystem.StockMarket;
 import org.example.interfaces.CityInterface;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -24,16 +23,15 @@ public class City implements CityInterface {
         characters = new ArrayList<>();
         municipality = new Municipality();
 //        Get Bank Property from municipality
-        bankSystem = new Bank(new Property(new float[]{12, 32}, new float[]{42, 32}, root), root);
+        bankSystem = Information.getBank();
         stockMarket = new StockMarket();
         stockMarket.startMarketSimulation();
     }
 
     @Override
     public void joinCharacter(User userinfo) {
-        BankAccount newAccount = bankSystem.newAccount(userinfo.getUsername(), userinfo.getPassword());
-        Character character = new Character(userinfo, newAccount, new Life(), null, null, null);
-        characters.add(character);
+        Character character = new Character(userinfo.getUsername());
+        Information.plus(character);
         beginGame(character);
     }
 

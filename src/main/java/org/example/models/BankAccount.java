@@ -71,4 +71,14 @@ public class BankAccount {
             }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "BankAccount{" +
+                "owner='" + owner + '\'' +
+                ", money=" + money +
+                ", lastChange=" + lastChange +
+                ", logs='" + logs + '\'' +
+                '}';
+    }
 }

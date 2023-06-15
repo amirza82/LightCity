@@ -49,4 +49,13 @@ public class Job {
         this.income = income;
     }
 
+    @Override
+    public String toString() {
+        return "Job{" +
+                "title='" + title + '\'' +
+                ", income=" + income +
+                ", industryId=" + industryId +
+                ", id=" + id +
+                '}';
+    }
 }

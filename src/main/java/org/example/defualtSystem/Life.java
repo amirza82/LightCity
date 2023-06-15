@@ -102,4 +102,14 @@ public class Life {
             System.out.println("Not enough sleep!");
         }
     }
+
+    @Override
+    public String toString() {
+        return "Life{" +
+                "username='" + username + '\'' +
+                ", food=" + food +
+                ", water=" + water +
+                ", sleep=" + sleep +
+                '}';
+    }
 }
