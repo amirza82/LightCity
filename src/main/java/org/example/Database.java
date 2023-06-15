@@ -1,9 +1,7 @@
 package org.example;
 
+import org.example.models.*;
 import org.example.models.Character;
-import org.example.models.Job;
-import org.example.models.Property;
-import org.example.models.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -61,47 +59,53 @@ public class Database {
                 }
                 characterRS.close();
 
-                ResultSet serviceMenRS = stmt.executeQuery("SELECT * FROM servicemen");
-                while (serviceMenRS.next()) {
-                    String firstName = serviceMenRS.getString("firstName");
-                    String lastName = serviceMenRS.getString("lastName");
-                    String age = serviceMenRS.getString("age");
-                    String nationalID = serviceMenRS.getString("NationalID");
-                    String gender = serviceMenRS.getString("gender");
-                    String salary = serviceMenRS.getString("salary");
-                    String workExperience = serviceMenRS.getString("workExperience");
-                    int id = serviceMenRS.getInt("id");
+                ResultSet propertiesRS = stmt.executeQuery("SELECT * FROM properties");
+                while (propertiesRS.next()) {
+                    String ownerusername = propertiesRS.getString("ownerusername");
+                    String coordinate = propertiesRS.getString("coordinate");
+                    String scales = propertiesRS.getString("scales");
+                    int id = propertiesRS.getInt("id");
 
-                    ServiceMen serviceMen = new ServiceMen(salary, workExperience, firstName, lastName,
-                            age, nationalID, gender);
-                    serviceMen.setId(id);
-                    Hospital.plus(serviceMen);
+                    String[] coordinateArray = coordinate.split(" ");
+                    ArrayList<Float> coordinates = new ArrayList<>();
+
+                    for (String s : coordinateArray) {
+                        coordinates.add(Float.parseFloat(s));
+                    }
+
+                    String[] scaleArray = coordinate.split(" ");
+                    ArrayList<Float> floatScale = new ArrayList<>();
+
+                    for (String s : scaleArray) {
+                        floatScale.add(Float.parseFloat(s));
+                    }
+
+                    float[] finalScale = {floatScale.get(0), floatScale.get(1)};
+                    float[] finalCoordinate = {coordinates.get(0) , coordinates.get(1)};
+
+                    Information.properties.add(new Property(finalScale,finalCoordinate,ownerusername,id));
                 }
-                serviceMenRS.close();
+                propertiesRS.close();
 
-                ResultSet visitRS = stmt.executeQuery("SELECT * FROM visit");
-                while (visitRS.next()) {
-                    String patientNationalID = visitRS.getString("patientNationalID");
-                    String doctorNationalID = visitRS.getString("doctorNationalID");
-                    String nurseNationalID = visitRS.getString("nurseNationalID");
-                    String date = visitRS.getString("date");
-                    String sickness = visitRS.getString("sickness");
-                    String prescription = visitRS.getString("prescription");
-                    int id = visitRS.getInt("id");
+                ResultSet industrysRS = stmt.executeQuery("SELECT * FROM industrys");
+                while (industrysRS.next()) {
+                    int id = industrysRS.getInt("propertyid");
+                    float income = industrysRS.getFloat("income");
+                    String title = industrysRS.getString("title");
 
-                    Visit visit = new Visit(patientNationalID, doctorNationalID,
-                            nurseNationalID, date, sickness, prescription);
-                    visit.setId(id);
-                    Hospital.plus(visit);
+                    Information.industrys.add(new Industry(title,income,id));
                 }
-                visitRS.close();
+                industrysRS.close();
 
-                ResultSet passRS = stmt.executeQuery("SELECT * FROM ownerpass");
-                while (passRS.next()) {
-                    String p = passRS.getString("pass");
-                    Hospital.setOwnerPassword(p);
+                ResultSet bankaccountsRS = stmt.executeQuery("SELECT * FROM bankaccounts");
+                while (bankaccountsRS.next()) {
+                    String ownerusername = bankaccountsRS.getString("ownerusername");
+                    float money = bankaccountsRS.getFloat("money");
+                    Date lastchange = bankaccountsRS.getDate("lastchange");
+
+                    Information.bankAccounts.add(new BankAccount(ownerusername,money,lastchange));
                 }
-                passRS.close();
+                bankaccountsRS.close();
                 conn.close();
 
             } catch (SQLException | ClassNotFoundException e) {
@@ -163,52 +167,57 @@ public class Database {
                     characterPS.executeUpdate();
                 }
 
-                // Truncate the servicemen table to remove any existing data
-                stmt.executeUpdate("TRUNCATE TABLE servicemen");
+                // Truncate the properties table to remove any existing data
+                stmt.executeUpdate("TRUNCATE TABLE properties");
 
-                // Insert all servicemens from the array list into the patient table
-                PreparedStatement serviceMenPS = conn.prepareStatement("INSERT INTO serviceMen" +
-                        "(firstName,lastName, age, NationalID, gender, salary, workExperience, id)" +
-                        " VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-                for (ServiceMen s : Hospital.getServiceMens()) {
-                    serviceMenPS.setString(1, s.firstName);
-                    serviceMenPS.setString(2, s.lastName);
-                    serviceMenPS.setString(3, s.age);
-                    serviceMenPS.setString(4, s.NationalID);
-                    serviceMenPS.setString(5, s.gender);
-                    serviceMenPS.setString(6, s.getSalary());
-                    serviceMenPS.setString(7, s.getWorkExperience());
-                    serviceMenPS.setInt(8, s.id);
-                    serviceMenPS.executeUpdate();
+                // Insert all properties from the array list into the properties table
+                PreparedStatement propertiesPS = conn.prepareStatement("INSERT INTO properties" +
+                        "(id,ownerusername, coordinate, scales) VALUES (?, ?, ?, ?)");
+                for (Property p : Information.properties) {
+                    propertiesPS.setInt(1, p.getId());
+                    propertiesPS.setString(2, p.getOwner().getUserInfo().getUsername());
+
+                    String coordinateAsString = "";
+                    coordinateAsString = coordinateAsString.concat(Float.toString(p.getCoordinate()[0]));
+                    coordinateAsString = coordinateAsString.concat(Float.toString(p.getCoordinate()[1]));
+                    propertiesPS.setString(3, coordinateAsString);
+
+                    String scaleAsString = "";
+                    scaleAsString = scaleAsString.concat(Float.toString(p.getScales()[0]));
+                    scaleAsString = scaleAsString.concat(Float.toString(p.getScales()[1]));
+                    propertiesPS.setString(4, scaleAsString);
+
+                    propertiesPS.executeUpdate();
                 }
 
-                // Truncate the visit table to remove any existing data
-                stmt.executeUpdate("TRUNCATE TABLE visit");
+                // Truncate the industrys table to remove any existing data
+                stmt.executeUpdate("TRUNCATE TABLE industrys");
 
-                // Insert all visits from the array list into the patient table
-                PreparedStatement visitPS = conn.prepareStatement("INSERT INTO visit" +
-                        "(patientNationalID,doctorNationalID, nurseNationalID, date, sickness," +
-                        " prescription, id)" +
-                        " VALUES (?, ?, ?, ?, ?, ?, ?)");
-                for (Visit v : Hospital.getVisits()) {
-                    visitPS.setString(1, v.getPatientNationalID());
-                    visitPS.setString(2, v.getDoctorNationalID());
-                    visitPS.setString(3, v.getNurseNationalID());
-                    visitPS.setString(4, v.getDate());
-                    visitPS.setString(5, v.getSickness());
-                    visitPS.setString(6, v.getPrescription());
-                    visitPS.setInt(7, v.getId());
-                    visitPS.executeUpdate();
+                // Insert all industrys from the array list into the industrys table
+                PreparedStatement industrysPS = conn.prepareStatement("INSERT INTO industrys" +
+                        "(propertyid,income, title) VALUES (?, ?, ?)");
+                for (Industry i : Information.industrys) {
+                    industrysPS.setInt(1, i.getId());
+                    industrysPS.setFloat(2, i.getIncome());
+                    industrysPS.setString(3, i.getTitle());
+
+                    industrysPS.executeUpdate();
                 }
 
-                // Truncate the ownerpass table to remove any existing data
-                stmt.executeUpdate("TRUNCATE TABLE ownerpass");
+                // Truncate the bankaccounts table to remove any existing data
+                stmt.executeUpdate("TRUNCATE TABLE bankaccounts");
 
-                // Insert all visits from the array list into the patient table
-                PreparedStatement passPS = conn.prepareStatement("INSERT INTO ownerpass" +
-                        "(pass) VALUES (?)");
-                passPS.setString(1, Hospital.getOwnerPassword());
-                passPS.executeUpdate();
+                // Insert all bankaccounts from the array list into the bankaccounts table
+                PreparedStatement bankaccountsPS = conn.prepareStatement("INSERT INTO bankaccounts" +
+                        "(ownerusername,money,lastchange) VALUES (?,?,?)");
+                for (BankAccount b : Information.bankAccounts) {
+                    bankaccountsPS.setString(1, b.getOwner());
+                    bankaccountsPS.setFloat(2, b.getMoney());
+                    bankaccountsPS.setDate(3, (Date) b.getLastChange());
+
+
+                    bankaccountsPS.executeUpdate();
+                }
 
             } catch (SQLException | ClassNotFoundException e) {
                 System.out.println(e.getMessage());

@@ -3,6 +3,8 @@ package org.example.defualtSystem;
 import org.example.models.Food;
 import org.example.models.Liquid;
 
+import java.util.Objects;
+
 public class Life {
     private String username;
     private float food;
@@ -20,7 +22,8 @@ public class Life {
         this.water = water;
         this.sleep = sleep;
         this.username = username;
-        startConsuming();
+        if (!Objects.equals(username, "root"))
+            startConsuming();
     }
 
     public String getUsername() {

@@ -14,8 +14,8 @@ public class Bank extends Industry implements BankInterface {
 
     public static  BankTurnover turnover;
 
-    public Bank(Property property,Character root) {
-        super("Bank",property,root,100.0f);
+    public Bank() {
+        super("Bank",100.0f,0);
         turnover = new BankTurnover();
     }
 
