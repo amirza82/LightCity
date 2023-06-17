@@ -20,7 +20,7 @@ public class Employee {
                 c.setJob(new Job(title,(baseSalary*level),industryId));
             }
         }
-        for (Industry i:Information.industrys) {
+        for (Industry i:Information.industry) {
             if (i.id == industryId)
                 this.industry = i;
         }

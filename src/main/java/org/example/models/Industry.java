@@ -21,10 +21,11 @@ public class Industry extends Property{
         super(propertyId);
         this.title = title;
         this.income = income;
-        for (Employee e: Information.employees) {
-            if (e.getIndustry().id == this.id)
-                employees.add(e);
-        }
+        if (Information.employees != null)
+            for (Employee e: Information.employees) {
+                if (e.getIndustry().id == this.id)
+                    employees.add(e);
+            }
         startPaySalary();
     }
 
@@ -65,16 +66,16 @@ public class Industry extends Property{
 
     public void startPaySalary(){
         Thread thread = new Thread(()->{
-           while (true){
-               employees.stream().forEach((employee)->{
-                   employee.paySalary();
-               });
-               try {
-                   Thread.sleep(10800000); // wait for 1 minute
-               } catch (InterruptedException e) {
-                   e.printStackTrace();
-               }
-           }
+            while (true){
+                employees.stream().forEach((employee)->{
+                    employee.paySalary();
+                });
+                try {
+                    Thread.sleep(10800000); // wait for 1 minute
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         });
         thread.start();
     }

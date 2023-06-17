@@ -6,32 +6,31 @@ import org.example.models.Employee;
 import org.example.models.Industry;
 
 public class Bank extends Industry implements BankInterface {
-
     private static final int MAX_EMPLOYEE_COUNT = 5;
     private static final float BASE_EMP_SALARY = 0.5f;
-    public static  BankTurnover turnover;
+    public static BankTurnover turnover;
 
     public Bank() {
-        super("Bank",100.0f,0);
+        super("Bank", 100.0f, 0);
         turnover = new BankTurnover();
     }
 
-//    public BankAccount newAccount(String username){
+    //    public BankAccount newAccount(String username){
 //        BankAccount bankAccount = new BankAccount(username,0,new Date());
 ////        bankAccount.setMoney(0);
 ////        bankAccount.setLastChange(new Date());
 ////        accounts.add(bankAccount);
 //        return bankAccount;
 //    }
-    public boolean registerAsEmp(Character character, String title, int level){
-        if(employees.size() >= MAX_EMPLOYEE_COUNT)return false;
-        Employee employee = new Employee(character.getUserInfo().getUsername(),0,BASE_EMP_SALARY,title,level);
+    public boolean registerAsEmp(Character character, String title, int level) {
+        if (employees.size() >= MAX_EMPLOYEE_COUNT) return false;
+        Employee employee = new Employee(character.getUserInfo().getUsername(), 0, BASE_EMP_SALARY, title, level);
         employees.add(employee);
         return true;
     }
 
-    public String bankDetail(Character character){
-        if(character==owner){
+    public String bankDetail(Character character) {
+        if (character == owner) {
             return "Bank{" +
                     "manager=" + owner +
                     ", employees=" + employees +
@@ -39,7 +38,8 @@ public class Bank extends Industry implements BankInterface {
         }
         return "Only Manager can see Bank detail";
     }
-    public static boolean transferMoney(Character buyer, Character seller, float amount){
+
+    public static boolean transferMoney(Character buyer, Character seller, float amount) {
         if (buyer.getAccount().withdraw(amount))
             if (seller.getAccount().deposit(amount))
                 return true;

@@ -43,4 +43,12 @@ public class Municipality implements MunicipalityInterface {
             System.out.println(p);
         }
     }
+
+    public ArrayList<Property> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(ArrayList<Property> properties) {
+        this.properties = properties;
+    }
 }

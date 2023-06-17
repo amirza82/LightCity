@@ -8,7 +8,7 @@ import org.example.models.*;
 import java.util.ArrayList;
 
 public class Information {
-    public static ArrayList<Industry> industrys = new ArrayList<>();
+    public static ArrayList<Industry> industry = new ArrayList<>();
     public static ArrayList<BankAccount> bankAccounts = new ArrayList<>();
     public static ArrayList<Character> characters = new ArrayList<>();
     public static ArrayList<Employee> employees = new ArrayList<>();
@@ -20,29 +20,30 @@ public class Information {
     public static ArrayList<Liquid> liquids = new ArrayList<>();
     public static Bank bank = new Bank();
 
-    public static Bank getBank(){
+    public static Bank getBank() {
         return bank;
     }
-    public static Character getRoot(){
-        for (Character c:characters) {
+
+    public static Character getRoot() {
+        for (Character c : characters) {
             if (c.getUserInfo().getUsername().equals("root"))
                 return c;
         }
         return null;
     }
 
-    public static int getBiggestId(Object o){
+    public static int getBiggestId(Object o) {
         int id = -10;
 
         if (o instanceof Industry) {
-            for (Industry i:industrys) {
+            for (Industry i : industry) {
                 if (i.getId() > id)
                     id = i.getId();
             }
         }
 
         if (o instanceof Property) {
-            for (Property p:properties) {
+            for (Property p : properties) {
                 if (p.getId() > id)
                     id = p.getId();
             }
@@ -61,7 +62,7 @@ public class Information {
 //        Takes an object and checks what it is. It belongs to any list, adds to that list
         if (o instanceof Industry) {
             ((Industry) o).setId((getBiggestId(o) + 1));
-            industrys.add((Industry) o);
+            industry.add((Industry) o);
         }
         if (o instanceof BankAccount) {
             bankAccounts.add((BankAccount) o);
@@ -99,7 +100,7 @@ public class Information {
     public static void delete(Object o) {
 //        Takes an object and checks what it is. It belongs to any list, adds to that list
         if (o instanceof Industry) {
-            industrys.remove((Industry) o);
+            industry.remove((Industry) o);
         }
         if (o instanceof BankAccount) {
             bankAccounts.remove((BankAccount) o);
