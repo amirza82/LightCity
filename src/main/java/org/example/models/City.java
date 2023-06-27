@@ -96,8 +96,8 @@ public class City implements CityInterface {
                                             break;
                                         case "title":
                                             int id = findIndustry(loc).getId();
-                                            for (Property p:Information.properties) {
-                                                if (p.getId() == id){
+                                            for (Property p : Information.properties) {
+                                                if (p.getId() == id) {
                                                     character.setInPosition(p);
                                                     break;
                                                 }
@@ -131,7 +131,7 @@ public class City implements CityInterface {
                                 System.out.print("-> Enter your choice: ");
                                 String dashboardOption = scanner.next();
 
-                                while (!dashboard(character,dashboardOption)){
+                                while (!dashboard(character, dashboardOption)) {
                                     System.out.println("Enter valid option : ");
                                     dashboardOption = scanner.nextLine();
                                 }
@@ -143,7 +143,7 @@ public class City implements CityInterface {
                                 System.out.println("c. Eat function");
                                 System.out.print("Enter your choice: ");
                                 String lifeOption = scanner.next();
-                                while (!lifeMenu(character,lifeOption)){
+                                while (!lifeMenu(character, lifeOption)) {
                                     System.out.println("Enter valid option : ");
                                     lifeOption = scanner.nextLine();
                                 }
@@ -172,8 +172,9 @@ public class City implements CityInterface {
         });
         thread.start();
     }
-    public boolean lifeMenu(Character character, String option){
-        switch (option){
+
+    public boolean lifeMenu(Character character, String option) {
+        switch (option) {
             case "a":
                 System.out.println(character.getLife());
                 return true;
@@ -187,6 +188,7 @@ public class City implements CityInterface {
                 return false;
         }
     }
+
     public boolean dashboard(Character character, String dashboardOption) {
         switch (dashboardOption) {
             case "a":
@@ -209,11 +211,21 @@ public class City implements CityInterface {
                             falseChoice = false;
                             break;
                         case 2:
-                            //Sell
+                            ManagementProperty(character);
                             falseChoice = false;
                             break;
                         case 3:
-                            //Managment
+                            System.out.println("1. My Property");
+                            System.out.println("2. My Industry");
+                            int number = propertyScann.nextInt();
+                            if (number == 1) {
+                                ManagementProperty(character);
+                            } else if (number == 2) {
+                                ManagementIndustry(character);
+                            } else
+                                System.out.println("wrong number!!!");
+                            falseChoice = false;
+                            break;
                         case 4:
                             System.out.println("Enter id of related property : ");
                             int id = propertyScann.nextInt();
@@ -264,12 +276,11 @@ public class City implements CityInterface {
                 System.out.println("\t\t-2. Show job detail");
                 Scanner intScan = new Scanner(System.in);
                 int economyChoice = intScan.nextInt();
-                if (economyChoice == 1){
+                if (economyChoice == 1) {
                     // Shoe incomes
                 } else if (economyChoice == 2) {
                     System.out.println(character.getJob());
-                }
-                else
+                } else
                     System.out.println("Invalid choice !");
                 return true;
             }
@@ -300,8 +311,7 @@ public class City implements CityInterface {
             }
             System.out.println("No property has this location!");
             return null;
-        }
-        else{
+        } else {
             for (Property p : municipality.getProperties()) {
                 if (p.getId() == Integer.parseInt(loc))
                     return p;
@@ -310,13 +320,159 @@ public class City implements CityInterface {
             return null;
         }
     }
-    public Industry findIndustry(String loc){
+
+    public Industry findIndustry(String loc) {
         for (Industry i : Information.industry) {
             if (i.getTitle().equals(loc))
                 return i;
         }
         System.out.println("No property with this title!");
         return null;
+    }
+
+    public void ManagementIndustry(Character character) {
+        boolean checkforIndustry = false;
+        boolean checkback = false;
+        boolean checkbackone = false;
+
+        Scanner inputInt = new Scanner(System.in);
+        Scanner inputString = new Scanner(System.in);
+
+        ArrayList<Industry> charactIndustry = new ArrayList<>();
+
+        //search Industry in character property
+        for (Property proper : character.getProperties()) {
+            if (proper instanceof Industry) {
+                charactIndustry.add((Industry) proper);
+                checkforIndustry = true;
+            }
+        }
+        if (checkforIndustry != true) {
+            System.out.println("You do not own any industry !");
+        } else {
+            checkback = false;
+            while (checkback != true) {
+                //choose industry to see her Request job
+                System.out.println("Enter id of Your industry to see list of YourRequest:");
+                for (Industry industry : charactIndustry) {
+                    System.out.println(industry.id + ". " + industry.getTitle());
+                }
+                System.out.println("0. Back");
+                int chooseint = inputInt.nextInt();
+
+                if (chooseint == 0) {
+                    checkback = true;
+                } else {
+                    checkbackone = false;
+                    while (checkbackone != true) {
+                        for (Industry industry : charactIndustry) {
+                            if (industry.id == chooseint) {
+                                if (industry.request.size() == 0) {
+                                    System.out.println("No requestJob for this industry");
+                                    checkbackone = true;
+                                } else {
+                                    String choosestri;
+                                    //see List of request for this industry
+                                    System.out.println("Enter Jobrequest id to see List of request:(Enter d to delete this requestJob)");
+                                    for (JobRequest requestjob : industry.request) {
+                                        System.out.println(requestjob);
+                                    }
+                                    System.out.println("A.Add request job");
+                                    System.out.println("B. Back");
+                                    choosestri = inputString.nextLine();
+
+                                    if (choosestri.equalsIgnoreCase("A")) {
+                                        System.out.println("Enter the name of the job you need: ");
+                                        String name = inputString.nextLine();
+                                        System.out.println("How many employees do you need in this job?");
+                                        int tedad = inputInt.nextInt();
+                                        System.out.println("What is the salary for this job? ");
+                                        float Basesalary = inputInt.nextFloat();
+                                        System.out.println("What level of character is suitable for this job?");
+                                        int level = inputInt.nextInt();
+                                        industry.request.add(new JobRequest(tedad, name, Basesalary, level));
+                                        System.out.println("This Request Job was successfully registered !!");
+
+                                    } else if (choosestri.equalsIgnoreCase("B")) {
+                                        checkbackone = true;
+                                    } else {
+                                        for (JobRequest requestjob : industry.request) {
+                                            //see List of request job and choose which one can be a Employee
+                                            if (choosestri.equalsIgnoreCase(String.valueOf(requestjob.getId()))) {
+                                                System.out.println("Enter the character ID to become a member of the factory:(Enter d to clear) ");
+                                                requestjob.printrequest();
+                                                System.out.println("0.Back");
+
+                                                String show = inputString.nextLine();
+
+                                                if (show.equals(String.valueOf(0))) {
+                                                    checkbackone = true;
+                                                } else if (show.equalsIgnoreCase("d")) {
+                                                    requestjob.getPeoplerequest().clear();
+                                                } else {
+                                                    for (Character charect : requestjob.getPeoplerequest()) {
+                                                        if (charect.getUserInfo().getUsername().equalsIgnoreCase(show)) {
+                                                            industry.getEmployee().add(new Employee(charect.getUserInfo().getUsername(), industry.id, requestjob.getBaseSalary(), requestjob.getTitle(), charect.getLevel()));
+                                                            requestjob.setNumberofrequests(requestjob.getNumberofrequests() - 1);
+                                                            System.out.println("This Character with " + character.getUserInfo().getUsername() + " name Successfully recruited as an employee");
+                                                        }
+                                                    }
+                                                }
+                                            } else if (choosestri.equalsIgnoreCase("d")) {
+                                                int choose;
+                                                System.out.println("Enter Id of requestJob: ");
+                                                choose = inputInt.nextInt();
+                                                boolean check = industry.deleterequestJob(choose);
+                                                if (check) {
+                                                    System.out.println("This requestJob was cleared with success");
+                                                } else {
+                                                    System.out.println("The requestJob with this id not found");
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void showOption(Character character) {
+
+
+    }
+
+    public void ManagementProperty(Character character) {
+        Scanner inputint = new Scanner(System.in);
+        Municipality municipality = new Municipality();
+        boolean check = true;
+        boolean checkback = true;
+        while (checkback) {
+            System.out.println("Enter Property id to sell: ");
+            for (Property p : character.getProperties()) {
+                System.out.println(p);
+            }
+            System.out.println("0. Back");
+            int input = inputint.nextInt();
+            if (input == 0) {
+                checkback = false;
+            } else {
+                for (Property p : character.getProperties()) {
+                    if (p.getId() == input) {
+                        municipality.sellProperty(p, character, p.getValue());
+                        System.out.println("this Property was successfully sold");
+                        check = false;
+                    }
+                }
+                if (check == true) {
+                    System.out.println("Property with " + input + " id not found");
+                }
+            }
+        }
     }
 
 }
