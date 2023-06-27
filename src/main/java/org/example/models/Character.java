@@ -12,6 +12,7 @@ public class Character implements CharacterInterface {
     private BankAccount account;
     private Life life;
     private Job job;
+    private int Level;
     private ArrayList<Property> properties = new ArrayList<>();
     boolean accountFound;
     private Property inPosition;
@@ -82,6 +83,13 @@ public class Character implements CharacterInterface {
     public void setUserInfo(User userInfo) {
         this.userInfo = userInfo;
     }
+    public int getLevel(){
+        for (Property p:properties)
+        {
+            Level+=p.getValue();
+        }
+        return Level;
+    }
 
     public BankAccount getAccount() {
         return account;
@@ -139,6 +147,7 @@ public class Character implements CharacterInterface {
                 "userInfo=" + userInfo +
                 ", account=" + account +
                 ", life=" + life +
+                ", Level="+getLevel()+
                 ", job=" + job +
                 ", properties=" + properties +
                 ", accountFound=" + accountFound +
