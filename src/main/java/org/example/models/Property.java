@@ -8,6 +8,7 @@ public class Property {
     protected float[] scales;
     protected float[] coordinate;
     protected Character owner ;
+    protected int Value;
     protected int id;
 
     public int getId() {
@@ -18,10 +19,11 @@ public class Property {
         this.id = id;
     }
 
-    public Property(float[] scales, float[] coordinate, String ownerUserName, int id) {
+    public Property(float[] scales, float[] coordinate, String ownerUserName, int id,int Value) {
         this.id = id;
         this.scales = scales;
         this.coordinate = coordinate;
+        this.Value=Value;
         for (Character c: Information.characters) {
             if (c.getUserInfo().getUsername().equals(ownerUserName)){
                 this.owner = c;
@@ -30,12 +32,13 @@ public class Property {
         }
     }
     public Property(int id) {
-        for (Property p:Information.properties) {
+        for (org.example.models.Property p:Information.properties) {
             if (p.getId()==id){
                 this.id = id;
                 this.scales = p.getScales();
                 this.coordinate = p.getCoordinate();
                 this.owner = p.getOwner();
+                this.Value=p.getValue();
             }
         }
     }
@@ -47,6 +50,14 @@ public class Property {
     public void setScales(float[] scales) {
         this.scales = scales;
     }
+    public int getValue() {
+        return Value;
+    }
+
+    public void setValue(int value) {
+        Value = value;
+    }
+
 
     public Character getOwner() {
         return owner;
@@ -70,6 +81,7 @@ public class Property {
                 "scales=" + Arrays.toString(scales) +
                 ", coordinate=" + Arrays.toString(coordinate) +
                 ", owner=" + owner +
+                ", Value=" +Value+
                 ", id=" + id +
                 '}';
     }
