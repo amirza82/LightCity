@@ -179,10 +179,10 @@ public class City implements CityInterface {
                 System.out.println(character.getLife());
                 return true;
             case "b":
-                //Sleep function
+                System.out.println(character.getLife().getSleep());
                 return true;
             case "c":
-                //Eat function
+                System.out.println(character.getLife().getFood());
                 return true;
             default:
                 return false;
