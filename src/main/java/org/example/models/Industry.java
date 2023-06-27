@@ -9,6 +9,7 @@ public class Industry extends Property{
     protected String title;
     protected float income;
     protected ArrayList<Employee> employees = new ArrayList<>();
+    protected ArrayList<JobRequest>request=new ArrayList<>();
 
 
     /**
@@ -62,6 +63,18 @@ public class Industry extends Property{
 
     public void setEmployee(ArrayList<Employee> employee) {
         this.employees = employee;
+    }
+    public boolean deleterequestJob(int id)
+    {
+        for(JobRequest requestjob:request)
+        {
+            if(requestjob.getId()==id)
+            {
+                request.remove(requestjob);
+                return true;
+            }
+        }
+        return false;
     }
 
     public void startPaySalary(){
