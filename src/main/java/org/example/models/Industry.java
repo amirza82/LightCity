@@ -9,15 +9,14 @@ public class Industry extends Property{
     protected String title;
     protected float income;
     protected ArrayList<Employee> employees = new ArrayList<>();
+    protected ArrayList<Job> requiredJobs = new ArrayList<>();
 
 
     /**
      * @param title : A Title for generate Industry @example : Bank extends Industry then title = "Bank"
-     * @param property : Industry owner should have a Property to create this industry on it
-     * @param  character : Industry owner
      * @param  income : Each Business has a class like Bank and extends Industry , in super method  Enter the desired monthly income amount
      * */
-    public Industry(String title,float income, int propertyId) {
+    public Industry(String title, float income, int propertyId) {
         super(propertyId);
         this.title = title;
         this.income = income;
@@ -37,6 +36,33 @@ public class Industry extends Property{
     @Override
     public void setId(int id) {
         this.id = id;
+    }
+
+
+    public void employment(Job job, Character character){
+        character.setJob(job);
+        requiredJobs.remove(job);
+        employees.add(new Employee(character.getUserInfo().getUsername(),this.id,job.getIncome(), job.getTitle(),
+                job.getLevel()));
+    }
+
+    public ArrayList<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(ArrayList<Employee> employees) {
+        this.employees = employees;
+    }
+    public void addRequiredJob(Job job){
+
+    }
+
+    public ArrayList<Job> getRequiredJobs() {
+        return requiredJobs;
+    }
+
+    public void setRequiredJobs(ArrayList<Job> requiredJobs) {
+        this.requiredJobs = requiredJobs;
     }
 
     public String getTitle() {

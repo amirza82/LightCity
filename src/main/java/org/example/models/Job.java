@@ -5,6 +5,7 @@ public class Job {
     private float income;
     public int industryId;
     private int id;
+    private float Level;
 
     public int getIndustryId() {
         return industryId;
@@ -12,6 +13,14 @@ public class Job {
 
     public void setIndustryId(int industryId) {
         this.industryId = industryId;
+    }
+
+    public float getLevel() {
+        return Level;
+    }
+
+    public void setLevel(int level) {
+        Level = level;
     }
 
     public int getId() {
@@ -27,10 +36,11 @@ public class Job {
      * @param income : industry The monthly income of its employees
      * @param industryId : industry id
      * */
-    public Job(String title, float income, int industryId) {
+    public Job(String title, float income, int industryId, float level) {
         this.title = title;
         this.income = income;
         this.industryId = industryId;
+        Level = level;
     }
 
     public String getTitle() {

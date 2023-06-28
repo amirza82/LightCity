@@ -6,18 +6,20 @@ import org.example.defualtSystem.Bank;
 public class Employee {
     private String title;
     private float baseSalary ;
-    private int level;
+    private float level;
     private Character character;
     private Industry industry;
 
     public Employee(String characterUsername,int industryId, float baseSalary,
-                    String title, int level) {
+                    String title, float level) {
         this.title = title;
 
         for (Character c: Information.characters) {
             if (c.getUserInfo().getUsername().equals(characterUsername)){
                 this.character = c;
-                c.setJob(new Job(title,(baseSalary*level),industryId));
+                Job j = new Job(title,(baseSalary*level),industryId, level);
+                c.setJob(j);
+                Information.plus(j);
             }
         }
         for (Industry i:Information.industry) {
@@ -52,7 +54,7 @@ public class Employee {
         this.baseSalary = baseSalary;
     }
 
-    public int getLevel() {
+    public float getLevel() {
         return level;
     }
 

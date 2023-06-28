@@ -15,6 +15,7 @@ public class Character implements CharacterInterface {
     private ArrayList<Property> properties = new ArrayList<>();
     boolean accountFound;
     private Property inPosition;
+    float level;
 
     public Character(String username, int jobId,
                      ArrayList<Integer> propertiesId, int inPositionId) {
@@ -48,6 +49,7 @@ public class Character implements CharacterInterface {
                 this.job = j;
                 break;
             }
+            level = (account.getMoney() + ((life.getFood()+life.getWater()+life.getSleep())/3));
         }
 
         for (Life l:Information.lives) {
@@ -72,8 +74,16 @@ public class Character implements CharacterInterface {
         job = null;
 
         life = new Life(10,10,10,username);
+        level = (account.getMoney() + ((life.getFood()+life.getWater()+life.getSleep())/3));
     }
 
+    public float getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
 
     public User getUserInfo() {
         return userInfo;

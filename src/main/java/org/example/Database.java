@@ -35,8 +35,9 @@ public class Database {
                 float income = jobRS.getFloat("income");
                 int id = jobRS.getInt("jobid");
                 int industryid = jobRS.getInt("industryid");
+                float level = jobRS.getFloat("level");
 
-                Job job = new Job(title, income, industryid);
+                Job job = new Job(title, income, industryid, level);
                 job.setId(id);
                 Information.jobs.add(job);
             }
@@ -94,8 +95,19 @@ public class Database {
                 int id = industrysRS.getInt("propertyid");
                 float income = industrysRS.getFloat("income");
                 String title = industrysRS.getString("title");
+                Industry industry = new Industry(title, income, id);
+                String require = industrysRS.getString("request");
+                String[] requireArray = require.split(" ");
+                int requireId;
+                for (String s:requireArray) {
+                    requireId = Integer.parseInt(s);
+                    for (Job j:Information.jobs) {
+                        if (j.getId()==requireId)
+                            industry.addRequiredJob(j);
+                    }
+                }
 
-                Information.industry.add(new Industry(title, income, id));
+                Information.industry.add(industry);
             }
             industrysRS.close();
 
@@ -183,12 +195,13 @@ public class Database {
 
             // Insert all jobs from the array list into the jobs table
             PreparedStatement jobPS = conn.prepareStatement("INSERT INTO jobs(jobid," +
-                    " title, income, industryid) VALUES (?, ?, ?, ?)");
+                    " title, income, industryid, level) VALUES (?, ?, ?, ?, ?)");
             for (Job j : Information.jobs) {
                 jobPS.setInt(1, j.getId());
                 jobPS.setString(2, j.getTitle());
                 jobPS.setFloat(3, j.getIncome());
                 jobPS.setInt(4, j.getIndustryId());
+                jobPS.setFloat(5, j.getLevel());
                 jobPS.executeUpdate();
             }
 
@@ -244,12 +257,17 @@ public class Database {
 
             // Insert all industrys from the array list into the industrys table
             PreparedStatement industrysPS = conn.prepareStatement("INSERT INTO industrys" +
-                    "(propertyid,income, title) VALUES (?, ?, ?)");
+                    "(propertyid,income, title, request) VALUES (?, ?, ?, ?)");
             for (Industry i : Information.industry) {
                 industrysPS.setInt(1, i.getId());
                 industrysPS.setFloat(2, i.getIncome());
                 industrysPS.setString(3, i.getTitle());
-
+                String s = "";
+                for (Job j:i.getRequiredJobs()) {
+                    s = s.concat(Integer.toString(j.getId()));
+                    s = s.concat(" ");
+                }
+                industrysPS.setString(4,s);
                 industrysPS.executeUpdate();
             }
 

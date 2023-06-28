@@ -23,7 +23,6 @@ public class City implements CityInterface {
 
     public City() {
         characters = new ArrayList<>();
-        municipality = new Municipality();
 //        Get Bank Property from municipality
         bankSystem = Information.getBank();
         stockMarket = new StockMarket();
@@ -199,8 +198,29 @@ public class City implements CityInterface {
     }
     public boolean dashboard(Character character, String dashboardOption) {
         switch (dashboardOption) {
-            case "a":
+            case "a": {
+                Scanner scanner = new Scanner(System.in);
+                for (Industry i : Information.industry) {
+                    for (Job j : i.getRequiredJobs())
+                        System.out.println(j);
+                }
+                System.out.println("Enter your choice's id : ");
+                int jobId = scanner.nextInt();
+                boolean employment = false;
+                for (Industry i : Information.industry) {
+                    for (Job j : i.getRequiredJobs()) {
+                        if (j.getId()==jobId && character.getLevel() >=j.getLevel()){
+                            employment = true;
+                            i.employment(j,character);
+                            break;
+                        }
+                    }
+                }
+                if (!employment)
+                    System.out.println("You cannot be employed in a job with this id !");
+
                 return true;
+            }
             case "b": {
                 System.out.println("\t-1. Show properties");
                 System.out.println("\t-2. Sell");
