@@ -3,6 +3,7 @@ package org.example.models;
 public class Liquid {
     private final float liquid;
     int id;
+    public float consumerPrice;
 
     public boolean available;
 
@@ -36,7 +37,7 @@ public class Liquid {
     public String toString() {
         return "Liquid{" +
                 "liquid=" + liquid +
-                ", id=" + id +
+                ", consumerPrice=" + consumerPrice +
                 ", available=" + available +
                 '}';
     }

@@ -7,6 +7,7 @@ import java.util.Arrays;
 public class Property {
     protected float[] scales;
     protected float[] coordinate;
+    protected float propertyPrice;
     protected Character owner ;
     protected int id;
 
@@ -18,10 +19,11 @@ public class Property {
         this.id = id;
     }
 
-    public Property(float[] scales, float[] coordinate, String ownerUserName, int id) {
+    public Property(float[] scales, float[] coordinate, String ownerUserName, int id, float propertyPrice) {
         this.id = id;
         this.scales = scales;
         this.coordinate = coordinate;
+        this.propertyPrice = propertyPrice;
         for (Character c: Information.characters) {
             if (c.getUserInfo().getUsername().equals(ownerUserName)){
                 this.owner = c;

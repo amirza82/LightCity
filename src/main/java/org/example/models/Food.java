@@ -6,14 +6,16 @@ public class Food {
     private final float water;
     private final float food;
     int id;
+    public float consumerPrice;
     public boolean available;
 
-    public Food(String title, float water, float food, int id, boolean available) {
+    public Food(String title, float water, float food, int id, boolean available, float price) {
         this.title = title;
         this.water = water;
         this.food = food;
         this.id = id;
         this.available = available;
+        consumerPrice = price;
     }
 
     public int getId() {
@@ -54,7 +56,7 @@ public class Food {
                 "title='" + title + '\'' +
                 ", water=" + water +
                 ", food=" + food +
-                ", id=" + id +
+                ", consumerPrice=" + consumerPrice +
                 ", available=" + available +
                 '}';
     }

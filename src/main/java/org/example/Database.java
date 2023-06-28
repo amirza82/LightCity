@@ -115,15 +115,13 @@ public class Database {
                 String title = foodsRS.getString("title");
                 float water = foodsRS.getFloat("water");
                 float food = foodsRS.getFloat("food");
+                float price = foodsRS.getFloat("price");
                 int isAvailable = foodsRS.getInt("available");
                 boolean available;
 
-                if (isAvailable == 0)
-                    available = false;
-                else
-                    available = true;
+                available = isAvailable != 0;
 
-                Information.foods.add(new Food(title, water, food, id, available));
+                Information.foods.add(new Food(title, water, food, id, available, price));
             }
             foodsRS.close();
 
@@ -133,11 +131,9 @@ public class Database {
                 float liquid = liquidsRS.getFloat("liquid");
                 int isAvailable = liquidsRS.getInt("available");
                 boolean available;
+                float price = liquidsRS.getFloat("price");
 
-                if (isAvailable == 0)
-                    available = false;
-                else
-                    available = true;
+                available = isAvailable != 0;
 
                 Information.liquids.add(new Liquid(liquid, id, available));
             }
@@ -275,7 +271,7 @@ public class Database {
 
             // Insert all liquids from the array list into the liquids table
             PreparedStatement liquidsPS = conn.prepareStatement("INSERT INTO liquids" +
-                    "(id,liquid, available) VALUES (?, ?, ?)");
+                    "(id,liquid, available, price) VALUES (?, ?, ?, ?)");
             for (Liquid l : Information.liquids) {
                 liquidsPS.setInt(1, l.getId());
                 liquidsPS.setFloat(2, l.getLiquid());
@@ -286,6 +282,7 @@ public class Database {
                 else
                     intAvailable = 0;
                 liquidsPS.setInt(3, intAvailable);
+                liquidsPS.setFloat(4, l.consumerPrice);
 
                 liquidsPS.executeUpdate();
             }
@@ -295,7 +292,7 @@ public class Database {
 
             // Insert all liquids from the array list into the liquids table
             PreparedStatement foodsPS = conn.prepareStatement("INSERT INTO foods" +
-                    "(id,title,water,food, available) VALUES (?, ?, ?, ?, ?)");
+                    "(id,title,water,food, available, price) VALUES (?, ?, ?, ?, ?, ?)");
             for (Food f : Information.foods) {
                 foodsPS.setInt(1, f.getId());
                 foodsPS.setString(2, f.getTitle());
@@ -308,6 +305,7 @@ public class Database {
                 else
                     intAvailable = 0;
                 foodsPS.setInt(5, intAvailable);
+                foodsPS.setFloat(6, f.consumerPrice);
 
                 foodsPS.executeUpdate();
             }

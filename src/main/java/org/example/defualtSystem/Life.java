@@ -45,6 +45,9 @@ public class Life {
     public float getSleep() {
         return sleep;
     }
+    public void sleep(float amount){
+        sleep += amount;
+    }
 
 
     public void foodConsumption(Food product){

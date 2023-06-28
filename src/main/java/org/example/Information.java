@@ -23,6 +23,13 @@ public class Information {
     public static Bank getBank() {
         return bank;
     }
+    public static Industry getShop(){
+        for (Industry i:industry) {
+            if (i.getTitle().equals("FastFoodShop"))
+                return i;
+        }
+        return null;
+    }
 
     public static Character getRoot() {
         for (Character c : characters) {

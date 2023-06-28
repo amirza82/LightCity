@@ -3,6 +3,7 @@ package org.example.models;
 import org.example.Database;
 import org.example.Information;
 import org.example.defualtSystem.Bank;
+import org.example.defualtSystem.FastFoodShop;
 import org.example.defualtSystem.Municipality;
 import org.example.defualtSystem.StockMarket;
 import org.example.interfaces.CityInterface;
@@ -141,6 +142,7 @@ public class City implements CityInterface {
                                 System.out.println("a. Life Detail");
                                 System.out.println("b. Sleep function");
                                 System.out.println("c. Eat function");
+                                System.out.println("d. Drink function");
                                 System.out.print("Enter your choice: ");
                                 String lifeOption = scanner.next();
                                 while (!lifeMenu(character,lifeOption)){
@@ -177,12 +179,22 @@ public class City implements CityInterface {
             case "a":
                 System.out.println(character.getLife());
                 return true;
-            case "b":
-                //Sleep function
+            case "b": {
+                System.out.println("How much do you want to sleep ?");
+                Scanner scanner = new Scanner(System.in);
+                character.getLife().sleep(scanner.nextFloat());
                 return true;
-            case "c":
-                //Eat function
+            }
+            case "c": {
+                FastFoodShop shop = new FastFoodShop();
+                shop.buyFood(character);
                 return true;
+            }
+            case "d": {
+                FastFoodShop shop = new FastFoodShop();
+                shop.buyWater(character);
+                return true;
+            }
             default:
                 return false;
         }
