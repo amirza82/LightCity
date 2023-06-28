@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.defualtSystem.Bank;
+import org.example.defualtSystem.FastFoodShop;
 import org.example.defualtSystem.Life;
 import org.example.models.Character;
 import org.example.models.*;
@@ -19,6 +20,7 @@ public class Information {
     public static ArrayList<Food> foods = new ArrayList<>();
     public static ArrayList<Liquid> liquids = new ArrayList<>();
     public static Bank bank = new Bank();
+    public static FastFoodShop shop = new FastFoodShop();
 
     public static Bank getBank() {
         return bank;

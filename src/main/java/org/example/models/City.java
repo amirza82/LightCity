@@ -3,7 +3,6 @@ package org.example.models;
 import org.example.Database;
 import org.example.Information;
 import org.example.defualtSystem.Bank;
-import org.example.defualtSystem.FastFoodShop;
 import org.example.defualtSystem.Municipality;
 import org.example.defualtSystem.StockMarket;
 import org.example.interfaces.CityInterface;
@@ -118,7 +117,15 @@ public class City implements CityInterface {
                                 if (Objects.equals(option, "a"))
                                     System.out.println(character.getInPosition());
                                 else if (option.equals("b")) {
-                                    // TODO: 6/16/2023 complete this
+                                    boolean isIndustry = false;
+                                    for (Industry i:Information.industry) {
+                                        if (i.id==character.getInPosition().getId()){
+                                            Industry.process(i.title,character);
+                                            isIndustry = true;
+                                        }
+                                    }
+                                    if (!isIndustry)
+                                        System.out.println("You are not in the place of any industry");
                                 }
                             }
                             // process location based on option
@@ -183,13 +190,11 @@ public class City implements CityInterface {
                 return true;
             }
             case "c": {
-                FastFoodShop shop = new FastFoodShop();
-                shop.buyFood(character);
+                Information.shop.buyFood(character);
                 return true;
             }
             case "d": {
-                FastFoodShop shop = new FastFoodShop();
-                shop.buyWater(character);
+                Information.shop.buyWater(character);
                 return true;
             }
             default:

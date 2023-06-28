@@ -2,7 +2,6 @@ package org.example.defualtSystem;
 
 import org.example.interfaces.BankInterface;
 import org.example.models.Character;
-import org.example.models.Employee;
 import org.example.models.Industry;
 
 public class Bank extends Industry implements BankInterface {
@@ -13,20 +12,6 @@ public class Bank extends Industry implements BankInterface {
     public Bank() {
         super("Bank", 100.0f, 0);
         turnover = new BankTurnover();
-    }
-
-    //    public BankAccount newAccount(String username){
-//        BankAccount bankAccount = new BankAccount(username,0,new Date());
-////        bankAccount.setMoney(0);
-////        bankAccount.setLastChange(new Date());
-////        accounts.add(bankAccount);
-//        return bankAccount;
-//    }
-    public boolean registerAsEmp(Character character, String title, int level) {
-        if (employees.size() >= MAX_EMPLOYEE_COUNT) return false;
-        Employee employee = new Employee(character.getUserInfo().getUsername(), 0, BASE_EMP_SALARY, title, level);
-        employees.add(employee);
-        return true;
     }
 
     public String bankDetail(Character character) {

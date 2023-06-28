@@ -1,9 +1,11 @@
 package org.example.models;
 
 import org.example.Information;
+import org.example.defualtSystem.Bank;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Industry extends Property{
     protected String title;
@@ -27,7 +29,27 @@ public class Industry extends Property{
             }
         startPaySalary();
     }
+    public static void process(String titleString, Character character){
+        Scanner scanner = new Scanner(System.in);
+        if (titleString.equals("Bank")){
+            System.out.println("1. Show Bank details");
+            System.out.println("Enter your choice");
+            int choice = scanner.nextInt();
+            Bank b = Information.getBank();
+            if (choice==1)
+                System.out.println(b.bankDetail(character));
 
+        } else if (titleString.equals("FastFoodShop")) {
+            System.out.println("1. Buy food");
+            System.out.println("2. Buy water");
+            System.out.println("Enter your choice");
+            int choice = scanner.nextInt();
+            if (choice==1)
+                Information.shop.buyFood(character);
+            if (choice==2)
+                Information.shop.buyWater(character);
+        }
+    }
     @Override
     public int getId() {
         return id;
