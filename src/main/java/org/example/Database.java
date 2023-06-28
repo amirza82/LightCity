@@ -66,6 +66,7 @@ public class Database {
                 String coordinate = propertiesRS.getString("coordinate");
                 String scales = propertiesRS.getString("scales");
                 int id = propertiesRS.getInt("id");
+                float price = propertiesRS.getFloat("price");
 
                 String[] coordinateArray = coordinate.split(" ");
                 ArrayList<Float> coordinates = new ArrayList<>();
@@ -84,7 +85,7 @@ public class Database {
                 float[] finalScale = {floatScale.get(0), floatScale.get(1)};
                 float[] finalCoordinate = {coordinates.get(0), coordinates.get(1)};
 
-                Information.properties.add(new Property(finalScale, finalCoordinate, ownerusername, id));
+                Information.properties.add(new Property(finalScale, finalCoordinate, ownerusername, id, price));
             }
             propertiesRS.close();
 
@@ -215,7 +216,7 @@ public class Database {
 
             // Insert all properties from the array list into the properties table
             PreparedStatement propertiesPS = conn.prepareStatement("INSERT INTO properties" +
-                    "(id,ownerusername, coordinate, scales) VALUES (?, ?, ?, ?)");
+                    "(id,ownerusername, coordinate, scales, price) VALUES (?, ?, ?, ?, ?)");
             for (Property p : Information.properties) {
                 propertiesPS.setInt(1, p.getId());
                 propertiesPS.setString(2, p.getOwner().getUserInfo().getUsername());
@@ -233,6 +234,7 @@ public class Database {
                 scaleAsString = scaleAsString.concat(Float.toString(p.getScales()[1]));
                 scaleAsString = scaleAsString.concat(" ");
                 propertiesPS.setString(4, scaleAsString);
+                propertiesPS.setFloat(5,p.getPropertyPrice());
 
                 propertiesPS.executeUpdate();
             }

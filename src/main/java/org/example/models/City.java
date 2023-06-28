@@ -16,11 +16,10 @@ import java.util.Scanner;
 public class City implements CityInterface {
     private final ArrayList<Character> characters;
     private final Bank bankSystem;
-    private final Municipality municipality;
 
     private final StockMarket stockMarket;
 
-    private Character root;
+    private Municipality municipality = new Municipality();
 
     public City() {
         characters = new ArrayList<>();
@@ -69,7 +68,6 @@ public class City implements CityInterface {
                         System.out.println("\tb. Properties");
                         System.out.println("\t\t- Show properties");
                         System.out.println("\t\t-Sell");
-                        System.out.println("\t\t-Managment");
                         System.out.println("\t\t-Found industry");
                         System.out.println("\tc. Economy");
                         System.out.println("\t\t- Shoe incomes");
@@ -206,8 +204,7 @@ public class City implements CityInterface {
             case "b": {
                 System.out.println("\t-1. Show properties");
                 System.out.println("\t-2. Sell");
-                System.out.println("\t-3. Managment");
-                System.out.println("\t-4. Found industry");
+                System.out.println("\t-3. Found industry");
                 System.out.print("-> Enter your choice: ");
                 Scanner propertyScann = new Scanner(System.in);
                 int properyChoice = propertyScann.nextInt();
@@ -220,13 +217,23 @@ public class City implements CityInterface {
                             }
                             falseChoice = false;
                             break;
-                        case 2:
-                            //Sell
+                        case 2: {
+                            System.out.println("Enter your property id :");
+                            int pId = propertyScann.nextInt();
+                            Property propertyForSell =null;
+                            for (Property p:Information.properties) {
+                                if (p.getId()==pId && p.owner == character)
+                                    propertyForSell = p;
+                            }
+                            if (propertyForSell!=null)
+                                municipality.sellProperty(propertyForSell,character);
+                            else
+                                System.out.println("You do not have such property");
+
                             falseChoice = false;
                             break;
+                        }
                         case 3:
-                            //Managment
-                        case 4:
                             System.out.println("Enter id of related property : ");
                             int id = propertyScann.nextInt();
                             boolean haveIndustry = false;

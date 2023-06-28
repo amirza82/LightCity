@@ -14,13 +14,9 @@ public class Municipality implements MunicipalityInterface {
         this.properties = Information.properties;
     }
 
-//    private void generateProperties() {
-////        Create an algorithm for generating properties for city
-//    }
-
     @Override
-    public boolean buyProperty(Property property, Character buyer, Character seller, float money) {
-        if (Bank.transferMoney(buyer,seller,money)) {
+    public boolean buyProperty(Property property, Character buyer, Character seller) {
+        if (Bank.transferMoney(buyer,seller,property.getPropertyPrice())) {
             property.setOwner(buyer);
             return true;
         }
@@ -32,8 +28,8 @@ public class Municipality implements MunicipalityInterface {
     }
 
     @Override
-    public void sellProperty(Property property, Character seller, float money) {
-        if (Bank.transferMoney(Information.getRoot(),seller,money))
+    public void sellProperty(Property property, Character seller) {
+        if (Bank.transferMoney(Information.getRoot(),seller,property.getPropertyPrice()))
             property.setOwner(Information.getRoot());
     }
 

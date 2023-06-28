@@ -50,6 +50,14 @@ public class Property {
         this.scales = scales;
     }
 
+    public float getPropertyPrice() {
+        return propertyPrice;
+    }
+
+    public void setPropertyPrice(float propertyPrice) {
+        this.propertyPrice = propertyPrice;
+    }
+
     public Character getOwner() {
         return owner;
     }
