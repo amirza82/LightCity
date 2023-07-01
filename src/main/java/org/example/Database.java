@@ -25,7 +25,7 @@ public class Database {
                 String username = userRS.getString("username");
                 String pass = userRS.getString("password");
 
-                Information.users.add(new User(username, pass));
+                Information.users.add(new User(username, Encryption.Decrypt(pass)));
             }
             userRS.close();
 
@@ -186,7 +186,7 @@ public class Database {
                     "password) VALUES (?, ?)");
             for (User u : Information.users) {
                 userPS.setString(1, u.getUsername());
-                userPS.setString(2, u.getPassword());
+                userPS.setString(2, Encryption.Encrypt(u.getPassword()));
                 userPS.executeUpdate();
             }
 
